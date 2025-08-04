@@ -13,14 +13,7 @@ router.post('/logout', logout);
 router.post('/onboarding',protectRoute, onboard);
 
 router.get("/me", protectRoute, (req, res) => {
-    res.status(200).json({
-        user: {
-            _id: req.user._id,
-            email: req.user.email,
-            fullName: req.user.fullName,
-            profilePic: req.user.profilePic
-        }
-    });
+  res.status(200).json({ success: true, user: req.user });
 });
 
 export default router;
