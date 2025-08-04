@@ -10,6 +10,7 @@ import OnboardingPage from './pages/OnboardingPage.jsx';
 import { Toaster } from 'react-hot-toast';
 import PageLoader from './components/PageLoader.jsx';
 import useAuthUser from './hooks/useAuthUser.js';
+import Layout from './components/Layout.jsx';
 
 
 const App = () => {
@@ -26,11 +27,9 @@ const App = () => {
   }
 
   return (
-    <div>
+    <div className="h-screen" data-theme='forest'>
       <Routes>
-        {console.log("isAuthenticated", isAuthenticated)}
-        {console.log("isOnboarded", isOnboarded)}
-        <Route path="/" element={isAuthenticated && isOnboarded ? (<HomePage />) : (<Navigate to={!isAuthenticated ? "/login" : "onboarding"}/>)}/>
+        <Route path="/" element={isAuthenticated && isOnboarded ? (<Layout showSidebar={true}><HomePage /></Layout>) : (<Navigate to={!isAuthenticated ? "/login" : "onboarding"}/>)}/>
         <Route path="/signup" element={!isAuthenticated ? <SignupPage /> : <Navigate to={
           isOnboarded ? "/" : "/onboarding"
         }/>}/>
