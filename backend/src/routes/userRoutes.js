@@ -1,18 +1,26 @@
-import express from 'express';
-import { protectRoute } from '../middleware/authMiddleware.js';
-import { getRecommendedUsers,getOutgoingRequests, getMyFriends, sendFriendRequest, acceptFriendRequest, getFriendRequest } from '../controllers/userController.js';
+import express from "express";
+import { protectRoute } from "../middleware/authMiddleware.js";
+import {
+  acceptFriendRequest,
+  getFriendRequests,
+  getMyFriends,
+  getOutgoingFriendReqs,
+  getRecommendedUsers,
+  sendFriendRequest,
+} from "../controllers/userController.js";
 
 const router = express.Router();
 
+// apply auth middleware to all routes
 router.use(protectRoute);
 
-router.get('/',  getRecommendedUsers);
-router.get('/friends', getMyFriends);
+router.get("/", getRecommendedUsers);
+router.get("/friends", getMyFriends);
 
-router.post('/friend-request/:id', sendFriendRequest);
-router.put('/friend-request/:id/accept', acceptFriendRequest);
-router.put('/friend-requests', getFriendRequest);
+router.post("/friend-request/:id", sendFriendRequest);
+router.put("/friend-request/:id/accept", acceptFriendRequest);
 
-router.get('/outgoing-requests', getOutgoingRequests);
+router.get("/friend-requests", getFriendRequests);
+router.get("/outgoing-friend-requests", getOutgoingFriendReqs);
 
 export default router;
