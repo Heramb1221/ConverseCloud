@@ -5,7 +5,7 @@ import React from 'react'
 const Layout = ({children, showSidebar = false}) => {
   return (
     <div className='min-h-screen'>
-      <div className='flex'>
+      <div className='h-screen flex'>
         {showSidebar && <Sidebar/>}
 
         <div className='flex-1 flex flex-col'>
