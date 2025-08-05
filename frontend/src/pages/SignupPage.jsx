@@ -1,8 +1,6 @@
 import React, { use } from 'react';
 import { MessageCircleCode } from 'lucide-react';
-import { Link } from 'react-router';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { signup } from '../lib/api';
+import { Link } from 'react-router-dom';;
 import { useSignUp } from '../hooks/useSignUp';
 
 const SignupPage = () => {

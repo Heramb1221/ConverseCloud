@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router'
-import useAuthUser from '../hooks/useAuthUser';
-import { useQuery } from '@tanstack/react-query';
-import { getStreamToken } from '../lib/api';
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router";
+import useAuthUser from "../hooks/useAuthUser";
+import { useQuery } from "@tanstack/react-query";
+import { getStreamToken } from "../lib/api";
 
 import {
   StreamVideo,
@@ -22,15 +22,14 @@ import PageLoader from "../components/PageLoader";
 const STREAM_API_KEY = import.meta.env.VITE_STREAM_API_KEY;
 
 const CallPage = () => {
-
-  const {id:callId} = useParams();
+  const { id: callId } = useParams();
   const [client, setClient] = useState(null);
   const [call, setCall] = useState(null);
   const [isConnecting, setIsConnecting] = useState(true);
 
-  const {authUser, isLoading} = useAuthUser();
+  const { authUser, isLoading } = useAuthUser();
 
-  const {data: tokenData} = useQuery({
+  const { data: tokenData } = useQuery({
     queryKey: ["streamToken"],
     queryFn: getStreamToken,
     enabled: !!authUser,
@@ -38,9 +37,7 @@ const CallPage = () => {
 
   useEffect(() => {
     const initCall = async () => {
-      if(!tokenData?.token || !authUser || !callId) {
-        return;
-      }
+      if (!tokenData.token || !authUser || !callId) return;
 
       try {
         console.log("Initializing Stream video client...");
@@ -78,7 +75,7 @@ const CallPage = () => {
 
   if (isLoading || isConnecting) return <PageLoader />;
 
-   return (
+  return (
     <div className="h-screen flex flex-col items-center justify-center">
       <div className="relative">
         {client && call ? (
@@ -103,11 +100,7 @@ const CallContent = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (callingState === CallingState.LEFT) {
-      navigate("/");
-    }
-  }, [callingState, navigate]);
+  if (callingState === CallingState.LEFT) return navigate("/");
 
   return (
     <StreamTheme>

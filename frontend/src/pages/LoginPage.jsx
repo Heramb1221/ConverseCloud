@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React from 'react'
 import { MessageCircleCode } from 'lucide-react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import useLogin from '../hooks/useLogin.js';
 
 const LoginPage = () => {
