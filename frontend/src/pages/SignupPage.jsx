@@ -1,138 +1,157 @@
-import React, { use } from 'react';
-import { MessageCircleCode } from 'lucide-react';
-import { Link } from 'react-router-dom';;
-import { useSignUp } from '../hooks/useSignUp';
+import { useState } from "react";
+import { ShipWheelIcon } from "lucide-react";
+import { Link } from "react-router-dom";
 
-const SignupPage = () => {
+import useSignUp from "../hooks/useSignUp";
 
-  const [signupData, setSignupData] = React.useState({
-    fullName: '',
-    email: '',
-    password: '',
+const SignUpPage = () => {
+  const [signupData, setSignupData] = useState({
+    fullName: "",
+    email: "",
+    password: "",
   });
 
-  const {isPending, error, signupMutation} = useSignUp();
+  // This is how we did it at first, without using our custom hook
+  // const queryClient = useQueryClient();
+  // const {
+  //   mutate: signupMutation,
+  //   isPending,
+  //   error,
+  // } = useMutation({
+  //   mutationFn: signup,
+  //   onSuccess: () => queryClient.invalidateQueries({ queryKey: ["authUser"] }),
+  // });
+
+  // This is how we did it using our custom hook - optimized version
+  const { isPending, error, signupMutation } = useSignUp();
 
   const handleSignup = (e) => {
     e.preventDefault();
-    mutate(signupData);
-  }
+    signupMutation(signupData);
+  };
 
   return (
-    <div className='h-screen flex items-center justify-center p-4 sm:p-6 md:p-8' data-theme="forest">
-      <div className='border border-primary/25 flex flex-col lg:flex-row w-full max-w-5xl mx-auto bg-base-100 rounded-xl shadow-lg overflow-hidden'>
-      {/* SIGHUP FORM Left */}
-        <div className='w-full lg:w-1/2 p-4 sm:p-8 flex flex-col'>
+    <div
+      className="h-screen flex items-center justify-center p-4 sm:p-6 md:p-8"
+      data-theme="forest"
+    >
+      <div className="border border-primary/25 flex flex-col lg:flex-row w-full max-w-5xl mx-auto bg-base-100 rounded-xl shadow-lg overflow-hidden">
+        {/* SIGNUP FORM - LEFT SIDE */}
+        <div className="w-full lg:w-1/2 p-4 sm:p-8 flex flex-col">
           {/* LOGO */}
-          <div className='mb-4 flex items-center justify-start gap-2'>
-            <MessageCircleCode className='size-9 text-primary' />
-            <span className='text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary tracking-wider'>ConverseCloud</span>
+          <div className="mb-4 flex items-center justify-start gap-2">
+            <ShipWheelIcon className="size-9 text-primary" />
+            <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary tracking-wider">
+              Streamify
+            </span>
           </div>
 
-          {/* ERROR MESSAGE */}
+          {/* ERROR MESSAGE IF ANY */}
           {error && (
-            <div className='alert alert-error shadow-lg mb-4'>
-                <span>{error.response.data.error || "An error occurred. Please try again."}</span>
+            <div className="alert alert-error mb-4">
+              <span>{error.response.data.message}</span>
             </div>
           )}
 
-          {/* SIGNUP FORM */}
-
-          <div className='w-full'>
+          <div className="w-full">
             <form onSubmit={handleSignup}>
-
-              <div className='space-y-4'>
+              <div className="space-y-4">
                 <div>
-                  <h2 className='text-xl font-semibold'>Create an Account</h2>
-                  <p className='text-sm opacity-70'>Join ConverseCloud and start your langauge learning adventures!</p>
+                  <h2 className="text-xl font-semibold">Create an Account</h2>
+                  <p className="text-sm opacity-70">
+                    Join Streamify and start your language learning adventure!
+                  </p>
                 </div>
 
-                <div className='space-y-3'>
-                  <div className='form-control w-full'>
-                    <label className='label'>
-                      <span className='label-text'>Full Name</span>
+                <div className="space-y-3">
+                  {/* FULLNAME */}
+                  <div className="form-control w-full">
+                    <label className="label">
+                      <span className="label-text">Full Name</span>
                     </label>
-
                     <input
-                      type='text'
-                      placeholder='John Doe'
-                      className='input input-bordered w-full'
+                      type="text"
+                      placeholder="John Doe"
+                      className="input input-bordered w-full"
                       value={signupData.fullName}
-                      onChange={(e) => setSignupData({ ...signupData, fullName: e
-                        .target.value })}
+                      onChange={(e) => setSignupData({ ...signupData, fullName: e.target.value })}
                       required
                     />
                   </div>
-
-                  <div className='form-control w-full'>
-                    <label className='label'>
-                      <span className='label-text'>Email</span>
+                  {/* EMAIL */}
+                  <div className="form-control w-full">
+                    <label className="label">
+                      <span className="label-text">Email</span>
                     </label>
-
                     <input
-                      type='email'
-                      placeholder='john@gmail.com'
-                      className='input input-bordered w-full'
+                      type="email"
+                      placeholder="john@gmail.com"
+                      className="input input-bordered w-full"
                       value={signupData.email}
-                      onChange={(e) => setSignupData({ ...signupData, email: e
-                        .target.value })}
+                      onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
                       required
                     />
                   </div>
-
-                  <div className='form-control w-full'>
-                    <label className='label'>
-                      <span className='label-text'>Password</span>
+                  {/* PASSWORD */}
+                  <div className="form-control w-full">
+                    <label className="label">
+                      <span className="label-text">Password</span>
                     </label>
-
                     <input
-                      type='password'
-                      placeholder='********'
-                      className='input input-bordered w-full'
+                      type="password"
+                      placeholder="********"
+                      className="input input-bordered w-full"
                       value={signupData.password}
-                      onChange={(e) => setSignupData({ ...signupData, password: e
-                        .target.value })}
+                      onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
                       required
                     />
-                    <p className='text-xs opacity-70 mt-1'>Password must be atl least 6 characters long</p>
+                    <p className="text-xs opacity-70 mt-1">
+                      Password must be at least 6 characters long
+                    </p>
                   </div>
 
-                  <div className='form-control'>
-                        <label className='label cursor-pointer justify-start gap-2'>
-                          <input type='checkbox' className='checkbox checkbox-sm' />
-                          <span className='text-xs leading-tight'>I agree to the {" "}
-                            <span className='text-primary hover:underline'>terms of services</span> and{" "}
-                            <span className='text-primary hover:underline'>privacy policy</span>
-                          </span>
-                        </label>
+                  <div className="form-control">
+                    <label className="label cursor-pointer justify-start gap-2">
+                      <input type="checkbox" className="checkbox checkbox-sm" required />
+                      <span className="text-xs leading-tight">
+                        I agree to the{" "}
+                        <span className="text-primary hover:underline">terms of service</span> and{" "}
+                        <span className="text-primary hover:underline">privacy policy</span>
+                      </span>
+                    </label>
                   </div>
-
                 </div>
-                  <button className='btn btn-primary w-full' type='submit'>{isPending ? (
+
+                <button className="btn btn-primary w-full" type="submit">
+                  {isPending ? (
                     <>
-                    <span className='loading loading-spinner loading-xs'></span>
-                    Loading
+                      <span className="loading loading-spinner loading-xs"></span>
+                      Loading...
                     </>
                   ) : (
                     "Create Account"
-                  )}</button>
-                  <div className='text-center mt-4'>
-                    <p className='text-sm'>
-                      Already have an account?{" "}
-                      <Link to="/login" className='text-primary hover:underline'>Sign in</Link>
-                    </p>
-                  </div>
+                  )}
+                </button>
+
+                <div className="text-center mt-4">
+                  <p className="text-sm">
+                    Already have an account?{" "}
+                    <Link to="/login" className="text-primary hover:underline">
+                      Sign in
+                    </Link>
+                  </p>
+                </div>
               </div>
             </form>
-
           </div>
         </div>
-      {/* SIGHUP FORM Right */}
+
+        {/* SIGNUP FORM - RIGHT SIDE */}
         <div className="hidden lg:flex w-full lg:w-1/2 bg-primary/10 items-center justify-center">
           <div className="max-w-md p-8">
             {/* Illustration */}
             <div className="relative aspect-square max-w-sm mx-auto">
-              <img src="/signup.png" alt="Language connection illustration" className="w-full h-full" />
+              <img src="/i.png" alt="Language connection illustration" className="w-full h-full" />
             </div>
 
             <div className="text-center space-y-3 mt-6">
@@ -148,4 +167,4 @@ const SignupPage = () => {
   );
 };
 
-export default SignupPage;
+export default SignUpPage;
